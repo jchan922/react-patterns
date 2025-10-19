@@ -1,5 +1,7 @@
 # React 19 - Hooks
 
+**Complete guide to React's built-in hooks.** For coding standards and best practices, see [coding-standards.md](../coding-standards.md).
+
 ## When to Use What - Quick Table
 
 **Sorted by execution order in the component lifecycle:**

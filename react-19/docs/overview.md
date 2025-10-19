@@ -1,5 +1,7 @@
 # React 19 - Overview
 
+**Comprehensive guide to React 19 features.** For quick reference and coding standards, see [coding-standards.md](../coding-standards.md).
+
 ## What's New in React 19
 
 React 19 is a major release focusing on **server-side capabilities** and **developer experience improvements**. Released in December 2024, it introduces stable support for features that were experimental in React 18.

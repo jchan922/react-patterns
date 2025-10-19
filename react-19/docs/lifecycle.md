@@ -1,5 +1,7 @@
 # React 19 - Lifecycle
 
+**Deep dive into component lifecycle and hook execution timing.** For coding standards, see [coding-standards.md](../coding-standards.md).
+
 ## Component Lifecycle & Hook Execution Order
 
 Understanding when hooks run in the component lifecycle:

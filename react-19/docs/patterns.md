@@ -1,7 +1,12 @@
 # React 19 - Common Patterns
 
-1. Components and Hooks Must Be Pure
-   Components should be idempotent, always returning the same output given the same inputs (props, state, and context) Rules of React – React. Avoid side effects during render—use effects for operations like API calls or subscriptions.
+**Deep dive into React patterns and best practices.** For quick reference, see [coding-standards.md](../coding-standards.md).
+
+## Core Principles
+
+### 1. Components and Hooks Must Be Pure
+
+Components should be idempotent, always returning the same output given the same inputs (props, state, and context) Rules of React – React. Avoid side effects during render—use effects for operations like API calls or subscriptions.
 
 ```javascript
 // ❌ BAD - Side effects during render
@@ -30,8 +35,9 @@ function ProductList({ category }) {
 }
 ```
 
-2. Follow the Rules of Hooks
-   Only call Hooks at the top level of your component, never inside loops, conditions, or nested functions. Hooks should only be called from React functions, not regular JavaScript functions Rules of React – React. Use ESLint plugin to enforce these rules.
+### 2. Follow the Rules of Hooks
+
+Only call Hooks at the top level of your component, never inside loops, conditions, or nested functions. Hooks should only be called from React functions, not regular JavaScript functions Rules of React – React. Use ESLint plugin to enforce these rules.
 
 ```javascript
 // ❌ BAD - Hooks in conditions
@@ -54,8 +60,9 @@ function UserProfile({ isLoggedIn }) {
 }
 ```
 
-3. One-Way Data Flow (Props Down, Events Up)
-   React uses one-way data flow, passing data down the component hierarchy from parent to child component through props Thinking in React – React. Child components communicate back to parents through callback functions passed as props.
+### 3. One-Way Data Flow (Props Down, Events Up)
+
+React uses one-way data flow, passing data down the component hierarchy from parent to child component through props Thinking in React – React. Child components communicate back to parents through callback functions passed as props.
 
 ```javascript
 // Parent component
@@ -84,8 +91,9 @@ function ProductList({ onAddToCart }) {
 }
 ```
 
-4. Component Composition Over Inheritance
-   Break down UI into smaller, reusable components. Compose complex UIs from simple building blocks rather than using class inheritance. Keep components focused on a single responsibility.
+### 4. Component Composition Over Inheritance
+
+Break down UI into smaller, reusable components. Compose complex UIs from simple building blocks rather than using class inheritance. Keep components focused on a single responsibility.
 
 ```javascript
 // ✅ GOOD - Composition with reusable components
@@ -113,8 +121,9 @@ function ProductCard({ product }) {
 }
 ```
 
-5. Lift State Up to Common Ancestors
-   When multiple components need to share state, find their closest common parent component and manage the state there Thinking in React – React. Share state through props rather than duplicating it across components.
+### 5. Lift State Up to Common Ancestors
+
+When multiple components need to share state, find their closest common parent component and manage the state there Thinking in React – React. Share state through props rather than duplicating it across components.
 
 ```javascript
 // ✅ GOOD - State lifted to parent
@@ -147,8 +156,9 @@ function TemperatureInput({ scale, value, onChange }) {
 }
 ```
 
-6. Treat Props and State as Immutable
-   A component's props and state are immutable snapshots with respect to a single render—never mutate them directly Rules of React – React. Always create new objects/arrays when updating state instead of modifying existing ones.
+### 6. Treat Props and State as Immutable
+
+A component's props and state are immutable snapshots with respect to a single render—never mutate them directly Rules of React – React. Always create new objects/arrays when updating state instead of modifying existing ones.
 
 ```javascript
 // ❌ BAD - Mutating state directly
@@ -183,8 +193,9 @@ function TodoList() {
 }
 ```
 
-7. Use Functional Components with Hooks
-   Modern React favors functional components over class components. Hooks like useState, useEffect, and useContext provide all necessary functionality while keeping code simpler and more maintainable.
+### 7. Use Functional Components with Hooks
+
+Modern React favors functional components over class components. Hooks like useState, useEffect, and useContext provide all necessary functionality while keeping code simpler and more maintainable.
 
 ```javascript
 // ✅ GOOD - Modern functional component
@@ -210,8 +221,9 @@ function UserDashboard() {
 }
 ```
 
-8. Avoid Prop Drilling with Context
-   For deeply nested components that need the same data, use the Context API instead of passing props through multiple intermediate components. This keeps code cleaner and more maintainable.
+### 8. Avoid Prop Drilling with Context
+
+For deeply nested components that need the same data, use the Context API instead of passing props through multiple intermediate components. This keeps code cleaner and more maintainable.
 
 ```javascript
 // Create context
@@ -242,8 +254,9 @@ function ThemeToggle() {
 }
 ```
 
-9. Organize and Structure Your Code Consistently
-   Maintain consistent file structure, naming conventions (PascalCase for components, camelCase for utilities), and import organization. Group related files together and use index files to simplify imports.
+### 9. Organize and Structure Your Code Consistently
+
+Maintain consistent file structure, naming conventions (PascalCase for components, camelCase for utilities), and import organization. Group related files together and use index files to simplify imports.
 
 ```javascript
 // File: components/UserProfile.jsx
@@ -272,10 +285,12 @@ function UserProfile({ userId }) {
 export default UserProfile;
 ```
 
-10. Think in React: Declarative UI
+### 10. Think in React: Declarative UI
+
     React is declarative—you tell React what to render in your component's logic, and React figures out how best to display it Rules of React – React. Describe the UI for different states rather than imperatively manipulating the DOM.
 
-11. Custom Hooks Over Higher-Order Components
+### 11. Custom Hooks Over Higher-Order Components
+
     In modern React, custom hooks are the preferred pattern for sharing logic. Use HOCs only for specific cases like conditional rendering or legacy code support. Custom hooks provide cleaner, more composable, and easier-to-test solutions.
 
 ```javascript

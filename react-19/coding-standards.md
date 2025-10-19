@@ -1,12 +1,14 @@
 # React 19 Coding Standards
 
-This document provides comprehensive coding standards and best practices for React 19 development. It serves as a reference guide for developers, LLMs, and AI agents working with React 19 codebases.
+**Single Source of Truth** for React 19 development standards and best practices.
+
+This document serves as a quick reference guide for developers, LLMs, and AI agents. For detailed explanations and advanced patterns, see the linked documentation files.
 
 ## Table of Contents
 
 1. [Component Architecture](#component-architecture)
-2. [React 19 Features & Hooks](#react-19-features--hooks)
-3. [Server Components & Directives](#server-components--directives)
+2. [React 19 Features & Hooks](#react-19-features--hooks) → [Deep dive: overview.md](./docs/overview.md)
+3. [Server Components & Directives](#server-components--directives) → [Deep dive: overview.md](./docs/overview.md)
 4. [State Management](#state-management)
 5. [Performance Optimization](#performance-optimization)
 6. [TypeScript Integration](#typescript-integration)
@@ -14,6 +16,14 @@ This document provides comprehensive coding standards and best practices for Rea
 8. [Naming Conventions](#naming-conventions)
 9. [Testing Standards](#testing-standards)
 10. [Code Quality & Tooling](#code-quality--tooling)
+
+## Related Documentation
+
+- **[React 19 Overview](./docs/overview.md)** - React 19 features, Server Components, Actions, new hooks
+- **[Hooks Reference](./docs/hooks.md)** - Built-in hooks (useState, useEffect, useContext, etc.)
+- **[Custom Hooks](./docs/custom-hooks.md)** - Custom hooks patterns and examples
+- **[React Patterns](./docs/patterns.md)** - Best practices and common patterns
+- **[Component Lifecycle](./docs/lifecycle.md)** - Hook execution order and timing
 
 ---
 
@@ -61,6 +71,8 @@ export default TodoForm;
 ### Custom Hooks vs Higher-Order Components (HOCs)
 
 **Standard**: **Custom hooks are the preferred pattern** for sharing logic in React 19. Use HOCs only for specific edge cases.
+
+📖 **[Detailed Guide: Custom Hooks](./docs/custom-hooks.md)** - Comprehensive patterns, examples, and comparisons
 
 #### Custom Hooks (Preferred)
 
@@ -178,6 +190,8 @@ function Card({ children, header, footer }) {
 ---
 
 ## React 19 Features & Hooks
+
+📖 **[Complete React 19 Features Guide](./docs/overview.md)** - Detailed explanations of all React 19 features
 
 ### The `use()` Hook
 
@@ -345,6 +359,8 @@ function ContactForm() {
 
 ## Server Components & Directives
 
+📖 **[Server Components Deep Dive](./docs/overview.md#1-react-server-components-rsc)** - Architecture, patterns, and best practices
+
 ### Default Server Components
 
 **Standard**: Components are Server Components by default in React 19. No directive needed.
@@ -457,6 +473,8 @@ export function ClientWrapper({ children }) {
 
 ## State Management
 
+📖 **[Hooks Reference](./docs/hooks.md)** - Complete guide to useState, useReducer, useContext, and more
+
 ### Local State First
 
 **Standard**: Use local component state (`useState`) for component-specific data.
@@ -557,6 +575,8 @@ const [state, setState] = useState(localStorage.getItem("theme") || "light");
 ---
 
 ## Performance Optimization
+
+📖 **[React Patterns](./docs/patterns.md)** - Advanced patterns including composition, data flow, and optimization
 
 ### React.memo for Expensive Components
 
