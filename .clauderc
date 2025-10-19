@@ -1,0 +1,24 @@
+# Claude Code Configuration for React Patterns Project
+
+## Project Context
+
+You are working in the React Patterns repository - a version-tracked learning resource demonstrating React patterns across different major versions.
+
+**IMPORTANT:** Before working on any task, read `/specs/project-spec.md` for complete project context, architecture principles, version isolation rules, and maintenance guidelines.
+
+## Quick Reference
+
+- **Master Spec:** `/specs/project-spec.md` - Read this first!
+- **React 19 Standards:** `/react-19/coding-standards.md` - Current active version
+- **Key Principle:** Each React version folder is completely isolated and independent
+
+## Version-Specific Work
+
+When working on code or documentation:
+1. Identify which React version folder you're in (react-19/, react-20/, etc.)
+2. Read that version's `coding-standards.md`
+3. Follow that version's patterns - don't mix patterns across versions
+
+---
+
+**All detailed specifications are in `/specs/project-spec.md` - always consult it for context!**
