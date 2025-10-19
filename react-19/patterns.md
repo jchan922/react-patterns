@@ -1,4 +1,4 @@
-# Common Patterns
+# React 19 - Common Patterns
 
 1. Components and Hooks Must Be Pure
    Components should be idempotent, always returning the same output given the same inputs (props, state, and context) Rules of React – React. Avoid side effects during render—use effects for operations like API calls or subscriptions.

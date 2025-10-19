@@ -1,8 +1,10 @@
-# React Components - Overview
+# React 19 - Components - React Server Components
+
+As of Oct 2025, React Server Components (RSC) require a framework that supports RSC (Next.js 13+, Remix, etc.)
 
 ## 🎓 Mental Model
 
-Think of React 19 as having **two environments**:
+Think of React 19 as having **two environments** for a full stack React app
 
 ```
 ┌─────────────────┐          ┌─────────────────┐
@@ -75,7 +77,6 @@ Think of React 19 as having **two environments**:
 - Only Client Components can use hooks like `useState`, `useEffect`
 - Server Components can import Client Components, but not vice versa
 - Server Actions must be marked with `'use server'`
-- Requires a framework that supports RSC (Next.js 13+, Remix, etc.)
 - Not all React 19 features require a framework (ref as prop, hooks work anywhere)
 
 ---

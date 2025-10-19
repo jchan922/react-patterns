@@ -1,4 +1,4 @@
-# React 19 - Major Features Overview
+# React 19 - Overview
 
 ## What's New in React 19
 
