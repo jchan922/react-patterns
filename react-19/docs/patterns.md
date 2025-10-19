@@ -275,6 +275,9 @@ export default UserProfile;
 10. Think in React: Declarative UI
     React is declarative—you tell React what to render in your component's logic, and React figures out how best to display it Rules of React – React. Describe the UI for different states rather than imperatively manipulating the DOM.
 
+11. Custom Hooks Over Higher-Order Components
+    In modern React, custom hooks are the preferred pattern for sharing logic. Use HOCs only for specific cases like conditional rendering or legacy code support. Custom hooks provide cleaner, more composable, and easier-to-test solutions.
+
 ```javascript
 // ❌ IMPERATIVE - Don't do this
 function Form() {
@@ -313,3 +316,75 @@ function Form() {
   );
 }
 ```
+
+```javascript
+// ✅ GOOD - Custom hook for authentication (PREFERRED)
+function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem("isAuthenticated") === "true";
+  });
+
+  const login = useCallback(() => {
+    setIsAuthenticated(true);
+    localStorage.setItem("isAuthenticated", "true");
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
+  }, []);
+
+  return { isAuthenticated, login, logout };
+}
+
+// Usage - Clean and explicit
+function Dashboard() {
+  const { isAuthenticated, login, logout } = useAuth();
+
+  if (!isAuthenticated) {
+    return <LoginScreen onLogin={login} />;
+  }
+
+  return (
+    <div>
+      <h1>Welcome to Dashboard</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+}
+```
+
+**Why custom hooks are preferred**:
+
+- Transparent API - you see exactly what goes in and what comes out
+- No prop drilling or prop collisions
+- Easy to compose multiple hooks together
+- Better for testing and debugging
+- Clear dependencies
+
+**When HOCs are still acceptable**:
+
+- Conditional component rendering (show component A vs B)
+- Feature flags that hide entire components
+- Legacy class component support
+- Third-party library wrappers that require HOC pattern
+
+```javascript
+// HOC for feature flags (acceptable use case)
+function withFeatureFlag(Component, featureName) {
+  return function FeatureFlaggedComponent(props) {
+    const { flags } = useFeatureFlags();
+
+    if (!flags[featureName]) {
+      return null; // Hide component if flag is off
+    }
+
+    return <Component {...props} />;
+  };
+}
+
+// Usage
+export default withFeatureFlag(NewDashboard, "new-dashboard-v2");
+```
+
+**General rule**: Default to custom hooks. Only use HOCs for conditional rendering or component tree manipulation.

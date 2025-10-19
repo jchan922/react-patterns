@@ -57,6 +57,7 @@ async function ProductList() {
 
 // Client Component (needs 'use client' directive)
 ("use client");
+
 import { useState } from "react";
 
 function Counter() {
@@ -100,6 +101,7 @@ export async function createNote(formData) {
 
 // Client Component using the Server Action
 ("use client");
+
 import { createNote } from "./server-actions";
 
 function NoteForm() {
@@ -127,6 +129,7 @@ Manages form state and submissions with built-in loading/error states.
 
 ```javascript
 "use client";
+
 import { useActionState } from "react";
 import { submitForm } from "./actions";
 
@@ -151,6 +154,7 @@ Gets status of parent form submission (must be inside a form component).
 
 ```javascript
 "use client";
+
 import { useFormStatus } from "react-dom";
 
 function SubmitButton() {
@@ -166,6 +170,7 @@ Show optimistic UI updates before server confirms.
 
 ```javascript
 "use client";
+
 import { useOptimistic } from "react";
 
 function MessageList({ messages, sendMessage }) {
@@ -196,6 +201,7 @@ First-class support for Promises and Context (can be used conditionally!).
 
 ```javascript
 "use client";
+
 import { use, Suspense } from "react";
 
 function UserProfile({ userPromise }) {

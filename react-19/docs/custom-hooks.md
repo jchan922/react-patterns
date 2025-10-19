@@ -4,12 +4,84 @@
 
 Custom hooks are **reusable functions** that use React's built-in hooks (useState, useEffect, useContext, etc.) to encapsulate and share logic between components.
 
+**In modern React 19, custom hooks are the preferred pattern for sharing logic**, replacing older patterns like Higher-Order Components (HOCs) for most use cases.
+
 ### Rules of Custom Hooks
 
 1. ✅ **Must start with "use"** (e.g., `useFetch`, `useAuth`, `useLocalStorage`)
 2. ✅ **Can call other hooks** (built-in or custom)
 3. ✅ **Follow all Rules of Hooks** (top-level only, React functions only)
 4. ✅ **Can return anything** (values, functions, objects, arrays)
+
+---
+
+## Custom Hooks vs Higher-Order Components (HOCs)
+
+**TL;DR**: Default to custom hooks. Only use HOCs for conditional rendering or component tree manipulation.
+
+### Why Custom Hooks Are Preferred
+
+| Aspect              | Custom Hooks ✅                      | HOCs ❌                             |
+| ------------------- | ------------------------------------ | ----------------------------------- |
+| **Transparency**    | Clear API - you see what goes in/out | Hidden props - unclear what's added |
+| **Prop Collisions** | None - direct value access           | Risk of name conflicts              |
+| **Nesting**         | No wrapper hell                      | Multiple HOCs = deep nesting        |
+| **Debugging**       | Simple call stack                    | Complex wrapper chain               |
+| **Composition**     | Easy to combine multiple hooks       | Difficult to compose HOCs           |
+| **TypeScript**      | Excellent type inference             | Requires complex generics           |
+
+### Example Comparison
+
+```javascript
+// ❌ OLD WAY: HOC Pattern (avoid for most cases)
+function withAuth(Component) {
+  return function AuthenticatedComponent(props) {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    // ... auth logic
+    return <Component {...props} isAuthenticated={isAuthenticated} />;
+  };
+}
+
+export default withAuth(Dashboard); // Wrapper indirection
+
+// ✅ NEW WAY: Custom Hook Pattern (preferred)
+function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const login = useCallback(() => setIsAuthenticated(true), []);
+  const logout = useCallback(() => setIsAuthenticated(false), []);
+  return { isAuthenticated, login, logout };
+}
+
+// Usage - Clean and explicit
+function Dashboard() {
+  const { isAuthenticated, login, logout } = useAuth();
+  // Everything is visible and clear
+  if (!isAuthenticated) return <LoginScreen onLogin={login} />;
+  return <DashboardContent onLogout={logout} />;
+}
+```
+
+### When HOCs Are Still Acceptable
+
+HOCs have a few legitimate use cases:
+
+1. **Conditional rendering** - Completely hide/show components based on feature flags
+2. **Legacy code** - Working with class components that can't use hooks
+3. **Third-party libraries** - When a library requires HOC pattern
+4. **Component tree manipulation** - Programmatically wrapping with providers/boundaries
+
+```javascript
+// Acceptable HOC use case: Feature flags
+function withFeatureFlag(Component, featureName) {
+  return function FeatureFlaggedComponent(props) {
+    const { flags } = useFeatureFlags();
+    if (!flags[featureName]) return null; // Hide entirely
+    return <Component {...props} />;
+  };
+}
+
+export default withFeatureFlag(BetaFeature, "new-dashboard");
+```
 
 ---
 
@@ -814,3 +886,74 @@ These four patterns cover the vast majority of custom hook use cases:
 3. **useEventListener** - Event subscription (DOM events, cleanup)
 4. **useDebounce** - Timing & performance (delayed execution)
 
+---
+
+## Bonus Pattern: Authentication Hook
+
+A complete example from the demo application showing authentication state management.
+
+```javascript
+import { useState, useCallback } from "react";
+
+// Custom hook for authentication
+export function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Initialize from localStorage
+    return localStorage.getItem("isAuthenticated") === "true";
+  });
+
+  const login = useCallback(() => {
+    setIsAuthenticated(true);
+    localStorage.setItem("isAuthenticated", "true");
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
+  }, []);
+
+  return { isAuthenticated, login, logout };
+}
+
+// Usage in App component
+function App() {
+  const { isAuthenticated, login, logout } = useAuth();
+  const [debugEvents, setDebugEvents] = useState([]);
+
+  const handleLogin = () => {
+    console.log("User logged in");
+    login();
+  };
+
+  const handleLogout = () => {
+    console.log("User logged out");
+    logout();
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="login-screen">
+        <h2>Welcome to Todo App</h2>
+        <button onClick={handleLogin}>Log In</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="app">
+      <header>
+        <h1>Dashboard</h1>
+        <button onClick={handleLogout}>Logout</button>
+      </header>
+      {/* App content */}
+    </div>
+  );
+}
+```
+
+**Why this pattern works**:
+
+- Combines Pattern 2 (localStorage) with authentication logic
+- Clean, testable API
+- Easy to extend with more auth features (token refresh, permissions, etc.)
+- No HOC wrapper complexity

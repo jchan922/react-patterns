@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { mockApi } from './api/mockApi';
-import { withAuth } from './hoc/withAuth';
+import { useAuth } from './hooks/useAuth';
 import TodoList from './components/TodoList';
 import ThemeToggle from './components/ThemeToggle';
 import DebugPanel from './components/DebugPanel';
 import './styles/app.scss';
 
-function App({ isAuthenticated, onLogin, onLogout }) {
+function App() {
+  // Custom hook pattern (modern React) - replaces HOC pattern
+  const { isAuthenticated, login, logout } = useAuth();
   const [lists, setLists] = useState([]);
   const [newListTitle, setNewListTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -183,27 +185,27 @@ function App({ isAuthenticated, onLogin, onLogout }) {
     });
   }, [logEvent]);
 
-  // Handler: User login (from HOC)
-  // deps: [logEvent, onLogin] - onLogin comes from withAuth HOC
+  // Handler: User login (from useAuth hook)
+  // deps: [logEvent, login] - login comes from useAuth custom hook
   const handleLogin = useCallback(() => {
     logEvent('auth', 'User logged in', [
       'useCallback → handleLogin',
-      'prop → onLogin()',
-      'HOC → withAuth'
+      'custom hook → useAuth()',
+      'hook function → login()'
     ]);
-    onLogin();
-  }, [logEvent, onLogin]);
+    login();
+  }, [logEvent, login]);
 
-  // Handler: User logout (from HOC)
-  // deps: [logEvent, onLogout] - onLogout comes from withAuth HOC
+  // Handler: User logout (from useAuth hook)
+  // deps: [logEvent, logout] - logout comes from useAuth custom hook
   const handleLogout = useCallback(() => {
     logEvent('auth', 'User logged out', [
       'useCallback → handleLogout',
-      'prop → onLogout()',
-      'HOC → withAuth'
+      'custom hook → useAuth()',
+      'hook function → logout()'
     ]);
-    onLogout();
-  }, [logEvent, onLogout]);
+    logout();
+  }, [logEvent, logout]);
 
   if (!isAuthenticated) {
     return (
@@ -325,10 +327,10 @@ function App({ isAuthenticated, onLogin, onLogout }) {
 
       {/* ===== FOOTER ===== */}
       <footer className="app-footer">
-        <p>Built with React 19 • Demonstrates: Hooks, Context, HOC, Memoization</p>
+        <p>Built with React 19 • Demonstrates: Hooks, Context, Custom Hooks, Memoization</p>
       </footer>
     </div>
   );
 }
 
-export default withAuth(App);
+export default App;
